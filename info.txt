@@ -1,0 +1,100 @@
+
+# for generating the train and valid jsonl files, need to have ollama running with a model that is specified in the generate script
+# such as mistral. Don't need to have it running in cli, just have ollama itself running with the given model pulled. This model doesn't need
+# to be the same as the one you fine tune on, this step is jsut for generating the answers to the prompts, to create the jsonl files
+# note: change the file name in generate.php/.py! Whichever file I use. need to change the file name of your prompt json file in 2 places
+php generate.php
+
+
+in: Desktop/mlx-examples/lora
+# for running the fine tuning on a mlx model. From HF just manually download config.json, tokenizer.model, and weights.npz, add to the mlx-model folder
+# or can download with the download.py script. If the model doesn't at least have the above 3 files, it won't work to fine tune
+# make sure to change the --model path to the folder of whatever model it is you want to fine tune
+# data is location of the 2 jsonl files
+python lora.py \
+ --train \
+ --model /Users/adamcarter/Desktop/finetuning/mistral \
+ --data /Users/adamcarter/Desktop/finetuning/data \
+ --batch-size 2 \
+ --lora-layers 8 \
+ --iters 1000
+
+
+ #UPDATE: MLX now supports any model directly from hugging face!
+ # as of 1/9/24 doesn't support GGUF models yet, there is a PR for it
+ # git pull in Desktop/mlx-examples repo to get changes
+ # pip install -U mlx
+ # for changes in the main project, need to do pip install or install the requirements in lora folder
+ # in the --model line just put the path to the model on HF
+ # change path of data if different folders with different jsonl files for different fine tunes
+ # smaller parameter models train much faster, can do more lora-layers and iterations also
+ python lora.py \
+  --train \
+  --model TinyLlama/TinyLlama-1.1B-Chat-v1.0 \
+  --data /Users/adamcarter/Desktop/finetuning/data \
+  --batch-size 2 \
+  --lora-layers 8 \
+  --iters 1000
+
+  less memory intensive if have issues (can also do less iters):
+   python lora.py \
+  --train \
+  --model mistralai/Mistral-7B-Instruct-v0.2 \
+  --data /Users/adamcarter/Desktop/finetuning/data_marcus \
+  --batch-size 1 \
+  --lora-layers 4 \
+  --iters 1000
+
+
+  # to try with gguf once supported:
+   python lora.py \
+  --train \
+  --model TheBloke/Mistral-7B-Instruct-v0.2-GGUF \
+  --data /Users/adamcarter/Desktop/finetuning/data_marcus \
+  --batch-size 1 \
+  --lora-layers 4 \
+  --iters 1000
+
+
+in: /Desktop/mlx-examples/llms/hf_llm
+# for running against the model without your finetune weights
+# or just use ollama with the model you fine tuned on
+python generate.py \
+ --model TinyLlama/TinyLlama-1.1B-Chat-v1.0 \
+ --max-tokens 512 \
+ --prompt "How did Marcus Aurelius apply Stoicism to his role as a Roman Emperor?"
+
+in: Desktop/mlx-examples/lora
+ # for running with your fine tune weights:
+ # copy the adapters.npz from the Desktop/mlx-examples/lora directory
+ python lora.py \
+ --model /Users/adamcarter/Desktop/finetuning/mistral \
+ --adapter-file /Users/adamcarter/Desktop/finetuning/adapters.npz \
+ --max-tokens 512 \
+ --prompt "How did Marcus Aurelius apply Stoicism to his role as a Roman Emperor?"
+
+in: Desktop/mlx-examples/lora
+ # Updated way to run prompts against fine tune, using model path directly from HF
+ # make sure you use the same model that you ran the fine tuning against
+ # don't forget after fine tuning, to copy adapters.npz from mlx-examples/lora to in here or wherever the path is using for that
+ python lora.py \
+ --model mistralai/Mistral-7B-Instruct-v0.2  \
+ --adapter-file /Users/adamcarter/Desktop/finetuning/adapters.npz \
+ --max-tokens 512 \
+ --prompt "How did Marcus Aurelius apply Stoicism to his role as a Roman Emperor?"
+
+in: Desktop/mlx-examples/lora
+ # you can fuse your adapter file with the base model, and optionally upload to HF
+ # if you don't specify the adapter-file path, it will default to where it is generated when you fine tune
+ # which means you don't have to move it around. But if you moved it for testing, need to change to the path of where it is
+ python fuse.py \
+  --model mlx-community/dolphin-2.6-mistral-7b-dpo-laser-mlx \
+  --adapter-file /Users/adamcarter/Desktop/finetuning/adapters.npz \
+  --save-path /path where you want to save, leave off and it will store it in mlx-examples/lora/lora_fused_model folder
+  --upload-name myFineTunedModel(update whatever it is you fine tuned, optional, don't do this if don't want to upload)
+
+
+ I had some issues with the config.json, having parameters it didn't expect in training, but then needed when running it afterwards.
+ I removed what it complained about when running the training, and added what it was missing when running the model afterwards.
+ For some reason, need to download the config.json to see it all versus viewing raw in hugging face.
+
