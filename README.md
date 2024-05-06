@@ -5,15 +5,17 @@
 ### generating jsonl files to be used for fine tuning
 For generating the train and valid jsonl files, need to have ollama running with a model that is specified in the generate script such as mistral. Don't need to have it running in cli, just have ollama itself running with the given model pulled. This model doesn't need to be the same as the one you fine tune on, this step is just for generating the answers to the prompts, to create the jsonl files
 
-note: change the file name in generate.php/.py Whichever file you use. need to change the file name of your prompt json file in 2 places (I've called one of mine instructions.json, anotgher is marcus.json).
+**note: change the file name in generate.php/.py Whichever file you use. need to change the file name of your prompt json file in 2 places (I've called one of mine instructions.json, anotgher is marcus.json).**
 
 You need to have a json file of the prompts you want answers to generated. You can ask an LLM to do this for you!
 Once you have the file completed with your prompts, run the generate script to generate the answers, it will output two files: train.jsonl and valid.jsonl - these will be the two files you need for fine tuning
 I store these 2 files in a data folder.
 
-You can choose to run whichever you prefer, the php or python script:
-php generate.php
-python generate.py
+**You can choose to run whichever you prefer, the php or python script:**
+
+`php generate.php`
+
+`python generate.py`
 
 
 ### fine tuning
@@ -23,8 +25,8 @@ git pull in Desktop/mlx-examples repo to get changes
 pip install -U mlx
 
 For exmapled, I cloned it to my Desktop.
+
 cd into: Desktop/mlx-examples/lora
-for running the fine tuning on a mlx model.
 
 For getting a model to fine tune, from huggingface just manually download config.json, tokenizer.model, and weights.npz, add to the mlx-model folder
 
@@ -32,6 +34,7 @@ or can download with the download.py script. If the model doesn't at least have 
 Note: make sure to change the --model path to the folder of whatever model it is you want to fine tune
 
 The data folder is location of the 2 jsonl files
+
 python lora.py \
  --train \
  --model /Users/adamcarter/Desktop/finetuning/mistral \
@@ -42,10 +45,12 @@ python lora.py \
 
 
 
-### Note: MLX also supports any model directly from huggingface! No need to download a model first
+**Note: MLX also supports any model directly from huggingface! No need to download a model first**
+
 in the --model line just put the path to the model on HF
 change path of data if different folders with different jsonl files for different fine tunes
  smaller parameter models train much faster, can do more lora-layers and iterations also
+
  python lora.py \
   --train \
   --model TinyLlama/TinyLlama-1.1B-Chat-v1.0 \
