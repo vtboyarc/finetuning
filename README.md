@@ -11,7 +11,9 @@ You need to have a json file of the prompts you want answers to generated. You c
 Once you have the file completed with your prompts, run the generate script to generate the answers, it will output two files: train.jsonl and valid.jsonl - these will be the two files you need for fine tuning
 I store these 2 files in a data folder.
 
+You can choose to run whichever you prefer, the php or python script:
 php generate.php
+python generate.py
 
 
 ### fine tuning
