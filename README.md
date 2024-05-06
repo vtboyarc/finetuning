@@ -73,6 +73,7 @@ change path of data if different folders with different jsonl files for differen
   --iters 1000
 
 ## After fine tuning
+note: make sure you use the same model that you ran the fine tuning against
 in: mlx-examples/lora
 copy the adapters.npz from the mlx-examples/lora directory. This is the results of your fine tuning you ran above!
 
@@ -83,7 +84,7 @@ copy the adapters.npz from the mlx-examples/lora directory. This is the results 
  --prompt "How did Marcus Aurelius apply Stoicism to his role as a Roman Emperor?"
 
 Another  way to run prompts against fine tune, using model path directly from HF instead of hvaing the model locally
-note: make sure you use the same model that you ran the fine tuning against
+
 don't forget after fine tuning, to copy adapters.npz from mlx-examples/lora to in here or wherever the path is using for that
 
  python lora.py \
