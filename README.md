@@ -5,7 +5,7 @@
 ### generating jsonl files to be used for fine tuning
 For generating the train and valid jsonl files, need to have ollama running with a model that is specified in the generate script such as mistral. Don't need to have it running in cli, just have ollama itself running with the given model pulled. This model doesn't need to be the same as the one you fine tune on, this step is just for generating the answers to the prompts, to create the jsonl files
 
-note: change the file name in generate.php/.py Whichever file you use. need to change the file name of your prompt json file in 2 places (I've called mine instructions.json).
+note: change the file name in generate.php/.py Whichever file you use. need to change the file name of your prompt json file in 2 places (I've called one of mine instructions.json, anotgher is marcus.json).
 
 You need to have a json file of the prompts you want answers to generated. You can ask an LLM to do this for you!
 Once you have the file completed with your prompts, run the generate script to generate the answers, it will output two files: train.jsonl and valid.jsonl - these will be the two files you need for fine tuning
