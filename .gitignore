@@ -1,0 +1,7 @@
+.env
+.DS_Store
+.venv
+node_modules
+.nuxt
+__pycache__
+package-lock.json
