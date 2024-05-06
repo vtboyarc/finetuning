@@ -75,6 +75,7 @@ change path of data if different folders with different jsonl files for differen
 ## After fine tuning
 note: make sure you use the same model that you ran the fine tuning against
 in: mlx-examples/lora
+
 copy the adapters.npz from the mlx-examples/lora directory. This is the results of your fine tuning you ran above!
 
  python lora.py \
