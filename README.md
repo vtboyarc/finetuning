@@ -84,7 +84,7 @@ copy the adapters.npz from the mlx-examples/lora directory. This is the results 
  --max-tokens 512 \
  --prompt "How did Marcus Aurelius apply Stoicism to his role as a Roman Emperor?"
 
-Another  way to run prompts against fine tune, using model path directly from HF instead of hvaing the model locally
+Another  way to run prompts against fine tune, using model path directly from HF instead of having the model locally
 
 don't forget after fine tuning, to copy adapters.npz from mlx-examples/lora to in here or wherever the path is using for that
 
