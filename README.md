@@ -1,4 +1,4 @@
-# my repo on fine tuning LLMs using Apple MLX
+# Fine tuning LLMs using Apple MLX
 
 ##  Steps
 
@@ -8,7 +8,7 @@ For generating the train and valid jsonl files, need to have ollama running with
 note: change the file name in generate.php/.py Whichever file you use. need to change the file name of your prompt json file in 2 places (I've called mine instructions.json).
 
 You need to have a json file of the prompts you want answers to generated. You can ask an LLM to do this for you!
-Once you ahve the file completed with your prompts, run the generate script to generate the answers, it will output two files: train.jsonl and valid.jsonl - these will be the two files you need for fine tuning
+Once you have the file completed with your prompts, run the generate script to generate the answers, it will output two files: train.jsonl and valid.jsonl - these will be the two files you need for fine tuning
 I store these 2 files in a data folder.
 
 php generate.php
